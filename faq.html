@@ -105,6 +105,16 @@ footer{background:#0c0c10;color:rgba(255,255,255,.4);padding:40px 0 28px;}
 .reveal.visible{opacity:1;transform:none;}
 .hidden-item{display:none;}
 
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;}
+@media(max-width:768px){
+  .hamburger{display:block;}
+  .nav-links{display:none !important;position:absolute;top:60px;left:0;right:0;background:rgba(250,250,248,.98);backdrop-filter:blur(16px);flex-direction:column;padding:20px 5%;gap:0;border-bottom:1px solid var(--border);box-shadow:0 8px 40px rgba(17,17,24,0.12);z-index:100;list-style:none;}
+  .nav-links.open{display:flex !important;}
+  .nav-links li{padding:12px 0;border-bottom:1px solid var(--border);}
+  .nav-links li:last-child{border:none;}
+  .footer-inner{flex-direction:column;text-align:center;}
+  .footer-links{flex-wrap:wrap;justify-content:center;gap:12px;}
+}
 @media(max-width:640px){
   .cat-tabs{gap:6px;}
   .cat-tab{font-size:12px;padding:7px 14px;}
@@ -128,6 +138,9 @@ footer{background:#0c0c10;color:rgba(255,255,255,.4);padding:40px 0 28px;}
       <li><a href="faq.html" class="active">FAQ</a></li>
       <li><a href="index.html#cta" class="nav-cta">購入する</a></li>
     </ul>
+    <button class="hamburger" onclick="this.closest('header').querySelector('.nav-links').classList.toggle('open')" aria-label="メニュー">
+      <svg viewBox="0 0 24 24" width="24" height="24"><line x1="3" y1="6" x2="21" y2="6" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="12" x2="21" y2="12" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="18" x2="21" y2="18" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
   </div>
 </header>
 
