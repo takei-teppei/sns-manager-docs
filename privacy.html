@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー — SNS Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111118;--ink-mid:#44444e;--ink-soft:#88889a;--paper:#fafaf8;--paper2:#f3f3ee;--accent:#ff4b36;--border:rgba(17,17,24,0.1);--serif:'Shippori Mincho B1',serif;--sans:'Noto Sans JP',sans-serif;--mono:'DM Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden;}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
+header{position:sticky;top:0;z-index:200;background:rgba(250,250,248,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.logo{font-family:var(--serif);font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-family:var(--mono);}
+.main{max-width:760px;margin:0 auto;padding:60px 5% 100px;}
+.label{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:#fff1ef;padding:4px 12px;border-radius:100px;border:1px solid rgba(255,75,54,.15);margin-bottom:16px;}
+h1{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:800;line-height:1.25;margin-bottom:8px;}
+.meta{font-size:13px;color:var(--ink-soft);margin-bottom:48px;}
+h2{font-family:var(--serif);font-size:18px;font-weight:800;margin:40px 0 12px;padding-bottom:8px;border-bottom:1.5px solid var(--border);}
+h2 .article-num{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-right:8px;}
+p{font-size:14.5px;color:var(--ink-mid);line-height:1.9;margin-bottom:12px;}
+ol,ul{padding-left:20px;margin-bottom:12px;}
+li{font-size:14.5px;color:var(--ink-mid);line-height:1.85;margin-bottom:4px;}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;}
+table th{background:var(--paper2);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--ink-mid);border-bottom:2px solid var(--border);}
+table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink-mid);vertical-align:top;}
+.info-box{display:flex;gap:12px;padding:16px 20px;border-radius:12px;margin:16px 0;font-size:13.5px;line-height:1.7;background:#ecfdf5;border:1.5px solid #6ee7b7;color:#065f46;}
+footer{background:#0c0c10;color:rgba(255,255,255,.4);padding:36px 0 24px;}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--serif);font-size:15px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;text-decoration:none;}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:rgba(255,255,255,.8);}
+.footer-copy{font-size:12px;width:100%;text-align:center;padding-top:18px;border-top:1px solid rgba(255,255,255,.06);margin-top:12px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">S</div>SNS Manager
+    </a>
+  </div>
+</header>
+
+<main class="main">
+  <div class="label">Privacy Policy</div>
+  <h1>プライバシーポリシー</h1>
+  <div class="meta">最終更新日：2024年1月1日</div>
+
+  <div class="info-box">
+    <span style="font-size:18px;flex-shrink:0;">🔒</span>
+    <div><strong>SNS Managerは、利用者のSNS投稿内容・APIキー・個人情報を当方のサーバーで保管しません。</strong>すべてのデータは利用者のGoogleスプレッドシートとGAS内にのみ保存されます。</div>
+  </div>
+
+  <h2><span class="article-num">第1条</span>取得する情報</h2>
+  <p>当方が取得・管理する情報は以下に限られます。</p>
+  <table>
+    <thead><tr><th>情報の種類</th><th>取得タイミング</th><th>保存場所</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>メールアドレス</td><td>ライセンス購入時</td><td>ライセンス管理DB（販売者スプレッドシート）</td><td>ライセンス発行・お知らせの送付</td></tr>
+      <tr><td>注文ID</td><td>ライセンス購入時</td><td>同上</td><td>購入記録の管理</td></tr>
+      <tr><td>SpreadsheetID</td><td>ライセンス認証時</td><td>同上</td><td>ライセンスの不正利用防止</td></tr>
+      <tr><td>認証アクセスログ</td><td>ライセンス認証時</td><td>同上</td><td>不正アクセスの検知</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="article-num">第2条</span>取得しない情報</h2>
+  <p>以下の情報は当方のサーバー・スプレッドシートに一切送信・保存されません。</p>
+  <ul>
+    <li>SNSへの投稿内容・キャプション・ハッシュタグ</li>
+    <li>Instagram・X・TikTok・ThreadsのAPIキー・アクセストークン</li>
+    <li>Google Driveの画像・動画ファイル</li>
+    <li>投稿のスケジュール・予約情報</li>
+    <li>分析・エンゲージメントデータ</li>
+    <li>LINEトークン・通知設定</li>
+  </ul>
+  <p>これらはすべて利用者のGoogleスプレッドシートとGASのスクリプトプロパティ内にのみ保存されます。</p>
+
+  <h2><span class="article-num">第3条</span>情報の利用目的</h2>
+  <p>取得した個人情報は以下の目的にのみ使用します。</p>
+  <ol>
+    <li>ライセンスキーの発行・管理・認証</li>
+    <li>不正利用の検知・対応</li>
+    <li>製品のアップデート・重要なお知らせの通知</li>
+    <li>サポート対応</li>
+  </ol>
+
+  <h2><span class="article-num">第4条</span>第三者提供</h2>
+  <p>取得した個人情報は、法令に基づく開示が必要な場合を除き、第三者に提供・販売することはありません。</p>
+
+  <h2><span class="article-num">第5条</span>Cookieおよびアクセス解析</h2>
+  <p>本サービスの紹介サイト（GitHub Pages）では、現時点においてGoogle Analyticsなどのアクセス解析ツールは使用していません。将来的に使用する場合は本ポリシーを更新してお知らせします。</p>
+
+  <h2><span class="article-num">第6条</span>外部サービス連携について</h2>
+  <p>本サービスはInstagram・X（Twitter）・TikTok・Threadsの各APIを利用します。これらのサービスへのデータ送信は、各プラットフォームのプライバシーポリシーに従います。</p>
+  <ul>
+    <li><a href="https://privacycenter.instagram.com/policy" target="_blank">Meta（Instagram・Threads）プライバシーポリシー</a></li>
+    <li><a href="https://twitter.com/ja/privacy" target="_blank">X（Twitter）プライバシーポリシー</a></li>
+    <li><a href="https://www.tiktok.com/legal/page/row/privacy-policy/ja-JP" target="_blank">TikTokプライバシーポリシー</a></li>
+  </ul>
+
+  <h2><span class="article-num">第7条</span>個人情報の開示・訂正・削除</h2>
+  <p>ご自身の個人情報の開示・訂正・削除をご希望の場合は、LINEサポートまでご連絡ください。合理的な期間内に対応いたします。</p>
+
+  <h2><span class="article-num">第8条</span>お問い合わせ</h2>
+  <p>本ポリシーに関するご質問は、サポートLINEまたは下記メールアドレスにてお受けしています。</p>
+
+  <h2><span class="article-num">第9条</span>ポリシーの変更</h2>
+  <p>本ポリシーは必要に応じて変更することがあります。重要な変更がある場合はサポートLINEにてお知らせします。</p>
+
+  <p style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--ink-soft);">ご不明な点はLINEサポートまでお問い合わせください。</p>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="footer-logo">
+      <div style="width:24px;height:24px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-family:var(--mono);">S</div>
+      SNS Manager
+    </a>
+    <div class="footer-links">
+      <a href="how-to-use.html">使い方</a>
+      <a href="faq.html">FAQ</a>
+      <a href="terms.html">利用規約</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 5%;">
+    <div class="footer-copy">© 2024 SNS Manager. All rights reserved.</div>
+  </div>
+</footer>
+</body>
+</html>

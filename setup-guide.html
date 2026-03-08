@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>セットアップガイド | SNS Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --text-muted: #7b7b9a;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --green: #43d88b;
+    --yellow: #f5c842;
+    --ig: #e1306c;
+    --x: #e7e7e7;
+    --tiktok: #69c9d0;
+    --threads: #d4d4d4;
+    --radius: 14px;
+    --shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── BACKGROUND ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 600px; height: 600px; background: rgba(108,99,255,0.08); top: -200px; left: -200px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(255,101,132,0.06); bottom: 100px; right: -150px; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+  }
+
+  nav {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+  }
+
+  .logo {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 5% 60px;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(108,99,255,0.12);
+    border: 1px solid rgba(108,99,255,0.25);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  h1 span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  /* ── NOTICE BOX ── */
+  .notice {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 0 5%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .notice-box {
+    background: rgba(245,200,66,0.07);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: #c8b45a;
+  }
+  .notice-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .notice-box strong { color: var(--yellow); display: block; margin-bottom: 2px; }
+
+  /* ── OVERVIEW STEPS ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 5% 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── FLOW ── */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 16px;
+    position: relative;
+    text-align: center;
+  }
+  .flow-step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .flow-step:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+
+  .flow-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .flow-step p { font-size: 13px; color: var(--text); font-weight: 500; }
+  .flow-step small { font-size: 11px; color: var(--text-muted); }
+
+  /* ── SNS CARD ── */
+  .sns-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .sns-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .sns-card:hover { border-color: rgba(255,255,255,0.14); }
+
+  .sns-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .sns-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .sns-icon.ig { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+  .sns-icon.x  { background: #111; border: 1px solid #333; }
+  .sns-icon.tt { background: #010101; border: 1px solid #222; }
+  .sns-icon.th { background: #090909; border: 1px solid #222; }
+
+  .sns-title { font-size: 15px; font-weight: 700; flex: 1; }
+  .sns-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+  .sns-toggle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .sns-card.open .sns-toggle { transform: rotate(180deg); background: rgba(108,99,255,0.15); color: var(--accent); }
+
+  .sns-body {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+  .sns-card.open .sns-body { display: block; }
+
+  /* ── STEPS ── */
+  .steps {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 20px;
+    position: relative;
+  }
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+  }
+
+  .step-num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content { flex: 1; }
+  .step-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .step-content p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+  /* ── KEYS LIST ── */
+  .keys-list {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .key-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .key-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+  }
+  .key-desc { font-size: 12px; color: var(--text-muted); }
+
+  .key-sheet {
+    font-size: 11px;
+    background: rgba(108,99,255,0.12);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── DOCS LINK ── */
+  .docs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    background: rgba(108,99,255,0.1);
+    border: 1px solid rgba(108,99,255,0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .docs-link:hover {
+    background: rgba(108,99,255,0.18);
+    border-color: rgba(108,99,255,0.4);
+    transform: translateX(2px);
+  }
+
+  /* ── CAUTION ── */
+  .caution {
+    margin-top: 14px;
+    background: rgba(255,101,132,0.06);
+    border: 1px solid rgba(255,101,132,0.15);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #c47a8a;
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ── TIPS ── */
+  .tip {
+    margin-top: 12px;
+    background: rgba(67,216,139,0.05);
+    border: 1px solid rgba(67,216,139,0.12);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #5ab888;
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ── HELP SECTION ── */
+  .help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .help-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s;
+    display: block;
+  }
+  .help-card:hover {
+    border-color: rgba(108,99,255,0.3);
+    background: rgba(108,99,255,0.05);
+    transform: translateY(-2px);
+  }
+
+  .help-card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .help-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .help-card p { font-size: 12.5px; color: var(--text-muted); }
+
+  /* ── STATUS TAG ── */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .tag-beta { background: rgba(245,200,66,0.1); color: var(--yellow); border: 1px solid rgba(245,200,66,0.2); }
+  .tag-stable { background: rgba(67,216,139,0.1); color: var(--green); border: 1px solid rgba(67,216,139,0.2); }
+  .tag-paid { background: rgba(255,101,132,0.1); color: var(--accent2); border: 1px solid rgba(255,101,132,0.2); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 5%;
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── SCROLL PROGRESS ── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 200;
+    transition: width 0.1s;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .flow { grid-template-columns: 1fr 1fr; }
+    .flow-step:first-child { border-radius: var(--radius) 0 0 0; }
+    .flow-step:nth-child(2) { border-radius: 0 var(--radius) 0 0; }
+    .flow-step:nth-last-child(2) { border-radius: 0 0 0 var(--radius); }
+    .flow-step:last-child { border-radius: 0 0 var(--radius) 0; }
+    .nav-links { display: none; }
+    .key-item { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- HEADER -->
+<header>
+  <nav>
+    <a href="#" class="logo"><span class="logo-dot"></span>SNS Manager</a>
+    <ul class="nav-links">
+      <li><a href="#overview">セットアップの流れ</a></li>
+      <li><a href="#instagram">Instagram</a></li>
+      <li><a href="#x">X</a></li>
+      <li><a href="#tiktok">TikTok</a></li>
+      <li><a href="#threads">Threads</a></li>
+      <li><a href="#support">サポート</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">📖 セットアップガイド</div>
+  <h1>APIキーの取得と<br><span>初期設定</span>の手順</h1>
+  <p class="hero-sub">SNS Managerをご利用いただくには、各SNSのAPIキーを取得して設定シートに入力する必要があります。このページに沿って進めてください。</p>
+</div>
+
+<!-- NOTICE -->
+<div class="notice">
+  <div class="notice-box">
+    <span class="notice-icon">⚡</span>
+    <div>
+      <strong>このページは常に最新情報に更新されます</strong>
+      各SNSのAPI申請画面は予告なく変更されることがあります。手順の詳細は各SNSの公式ドキュメントを参照するリンクを設置していますので、最新の公式情報を必ずご確認ください。
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section">
+  <div class="section-label">セットアップの全体像</div>
+  <div class="flow">
+    <div class="flow-step">
+      <span class="flow-num">STEP 01</span>
+      <p>各SNSの開発者アカウント登録</p>
+      <small>無料で作成可能</small>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">STEP 02</span>
+      <p>アプリを作成してAPIキー取得</p>
+      <small>下記の手順に沿って</small>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">STEP 03</span>
+      <p>設定シートにキーを入力</p>
+      <small>スプレッドシートで</small>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num">STEP 04</span>
+      <p>APIテストで接続確認</p>
+      <small>メニューから実行</small>
+    </div>
+  </div>
+
+  <div class="section-label">各SNSのAPIキー設定ガイド</div>
+  <div class="sns-grid">
+
+    <!-- =============== INSTAGRAM =============== -->
+    <div id="instagram" class="sns-card open">
+      <div class="sns-header" onclick="toggle(this)">
+        <div class="sns-icon ig">📸</div>
+        <div>
+          <div class="sns-title">Instagram <span class="tag tag-stable">安定版</span></div>
+          <div class="sns-subtitle">Meta Graph API 経由で投稿・分析が可能</div>
+        </div>
+        <div class="sns-toggle">▾</div>
+      </div>
+      <div class="sns-body">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Metaビジネスアカウントを準備する</h4>
+              <p>Instagram アカウントを「プロアカウント（ビジネス or クリエイター）」に切り替えてください。<br>
+              ※ 個人アカウントのままではAPIが利用できません。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Meta Developers でアプリを作成する</h4>
+              <p>下記リンクから「開発者登録」を行い、新しいアプリを作成してください。アプリタイプは「ビジネス」を選択します。</p>
+              <a class="docs-link" href="https://developers.facebook.com/apps/" target="_blank" rel="noopener">
+                → Meta Developers を開く ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Instagram Graph API を有効化する</h4>
+              <p>アプリのダッシュボードから「製品を追加」→「Instagram Graph API」を追加します。</p>
+              <a class="docs-link" href="https://developers.facebook.com/docs/instagram-api/getting-started" target="_blank" rel="noopener">
+                → 公式スタートガイドを読む ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>アクセストークンを取得する</h4>
+              <p>Graph API エクスプローラーを使用して Long-lived Access Token（長期有効トークン）を取得します。有効期限は約60日です。SNS Managerが自動更新します。</p>
+              <a class="docs-link" href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">
+                → Graph API エクスプローラー ↗
+              </a>
+              <div class="tip">💡 取得するトークンの権限（Scope）に <code>instagram_basic</code>、<code>instagram_content_publish</code>、<code>instagram_manage_insights</code> を含めてください。</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h4>設定シートに入力する値</h4>
+              <div class="keys-list">
+                <div class="key-item">
+                  <span class="key-name">Instagram User ID</span>
+                  <span class="key-desc">数字のみのID（ユーザー名ではない）</span>
+                  <span class="key-sheet">設定 B2</span>
+                </div>
+                <div class="key-item">
+                  <span class="key-name">Access Token</span>
+                  <span class="key-desc">Long-lived Access Token</span>
+                  <span class="key-sheet">設定 B3</span>
+                </div>
+                <div class="key-item">
+                  <span class="key-name">Facebook App ID</span>
+                  <span class="key-desc">アプリのダッシュボードで確認</span>
+                  <span class="key-sheet">設定 B4</span>
+                </div>
+                <div class="key-item">
+                  <span class="key-name">Facebook App Secret</span>
+                  <span class="key-desc">アプリのダッシュボードで確認</span>
+                  <span class="key-sheet">設定 B5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="caution">⚠️ Instagram APIはライブモードにする前に、アプリのレビュー申請が必要になる場合があります。詳細は公式ドキュメントをご確認ください。</div>
+      </div>
+    </div>
+
+    <!-- =============== X (TWITTER) =============== -->
+    <div id="x" class="sns-card">
+      <div class="sns-header" onclick="toggle(this)">
+        <div class="sns-icon x">𝕏</div>
+        <div>
+          <div class="sns-title">X (Twitter) <span class="tag tag-paid">有料プランあり</span></div>
+          <div class="sns-subtitle">投稿にはBasic以上のAPIプランが必要</div>
+        </div>
+        <div class="sns-toggle">▾</div>
+      </div>
+      <div class="sns-body">
+        <div class="caution" style="margin-bottom:16px">⚠️ 2023年以降、X(Twitter) APIは有料化されています。投稿（書き込み）機能を使用するには <strong>Basic プラン（月額$100）以上</strong> が必要です。読み取りのみであれば Free プランで可能です。</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>X Developer Portal にアクセスする</h4>
+              <p>X のアカウントでログインし、Developer Portal から開発者登録を行います。利用目的を英語で入力する必要があります。</p>
+              <a class="docs-link" href="https://developer.twitter.com/en/portal/dashboard" target="_blank" rel="noopener">
+                → X Developer Portal を開く ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>プロジェクトとアプリを作成する</h4>
+              <p>「Create Project」からプロジェクトを作成し、その中にアプリを追加します。OAuth 2.0 と OAuth 1.0a の両方を有効にしてください。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>APIキーとトークンを取得する</h4>
+              <p>アプリの「Keys and Tokens」タブから各キーをコピーします。Access Token は「Generate」ボタンで作成できます。</p>
+              <a class="docs-link" href="https://developer.twitter.com/en/docs/authentication/oauth-1-0a" target="_blank" rel="noopener">
+                → 認証ガイドを読む ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>設定シートに入力する値</h4>
+              <div class="keys-list">
+                <div class="key-item"><span class="key-name">API Key</span><span class="key-desc">Consumer Key</span><span class="key-sheet">設定 B8</span></div>
+                <div class="key-item"><span class="key-name">API Secret</span><span class="key-desc">Consumer Secret</span><span class="key-sheet">設定 B9</span></div>
+                <div class="key-item"><span class="key-name">Access Token</span><span class="key-desc">自分のアカウントのトークン</span><span class="key-sheet">設定 B10</span></div>
+                <div class="key-item"><span class="key-name">Access Token Secret</span><span class="key-desc">Access Token に対応するSecret</span><span class="key-sheet">設定 B11</span></div>
+                <div class="key-item"><span class="key-name">Bearer Token</span><span class="key-desc">読み取り用トークン</span><span class="key-sheet">設定 B12</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== TIKTOK =============== -->
+    <div id="tiktok" class="sns-card">
+      <div class="sns-header" onclick="toggle(this)">
+        <div class="sns-icon tt">🎵</div>
+        <div>
+          <div class="sns-title">TikTok <span class="tag tag-beta">動画のみ</span></div>
+          <div class="sns-subtitle">Content Posting API — 動画ファイルが必要</div>
+        </div>
+        <div class="sns-toggle">▾</div>
+      </div>
+      <div class="sns-body">
+        <div class="caution" style="margin-bottom:16px">⚠️ TikTok API では<strong>動画ファイルのみ</strong>投稿可能です。画像の投稿には対応していません。Google Drive に動画をアップロードしてご利用ください。</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>TikTok for Developers に登録する</h4>
+              <p>TikTok アカウントで開発者登録を行います。ビジネスアカウントの利用を推奨します。</p>
+              <a class="docs-link" href="https://developers.tiktok.com/" target="_blank" rel="noopener">
+                → TikTok for Developers ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>アプリを作成し Content Posting API を申請する</h4>
+              <p>「My Apps」から新規アプリを作成し、「Content Posting API」の利用申請を行います。審査には数日かかる場合があります。</p>
+              <a class="docs-link" href="https://developers.tiktok.com/doc/content-posting-api-get-started" target="_blank" rel="noopener">
+                → Content Posting API ドキュメント ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>設定シートに Client Key / Client Secret を入力する</h4>
+              <div class="keys-list">
+                <div class="key-item"><span class="key-name">Client Key</span><span class="key-desc">アプリのClient Key</span><span class="key-sheet">設定 B15</span></div>
+                <div class="key-item"><span class="key-name">Client Secret</span><span class="key-desc">アプリのClient Secret</span><span class="key-sheet">設定 B16</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>OAuth認証でアクセストークンを取得する</h4>
+              <p>SNS Managerには TikTok OAuth認証の組み込みフローが用意されています。手動でトークンを取得する必要はありません。</p>
+              <p>メニュー「📱 SNS Manager」→「🎵 TikTok認証」→「<strong>OAuth認証を開始</strong>」を選択すると、認証ダイアログが表示されます。</p>
+              <ol style="margin:8px 0;padding-left:20px;line-height:1.8">
+                <li>ダイアログに表示される認証URLをクリックしてTikTokにログイン</li>
+                <li>アプリを許可すると、リダイレクト先のURLに認証コードが含まれます</li>
+                <li>URLの <code style="font-family:var(--mono);background:#f5f5f5;padding:2px 6px;border-radius:4px;">code=</code> パラメータの値をダイアログに貼り付けて送信</li>
+              </ol>
+              <p>認証が完了すると、Access Token（B17）と Refresh Token（B18）が自動的に設定シートに保存されます。トークンの自動更新トリガーも設定されるため、手動で更新する必要はありません。</p>
+              <div class="keys-list">
+                <div class="key-item"><span class="key-name">Access Token</span><span class="key-desc">OAuth認証で自動設定</span><span class="key-sheet">設定 B17</span></div>
+                <div class="key-item"><span class="key-name">Refresh Token</span><span class="key-desc">OAuth認証で自動設定</span><span class="key-sheet">設定 B18</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============== THREADS =============== -->
+    <div id="threads" class="sns-card">
+      <div class="sns-header" onclick="toggle(this)">
+        <div class="sns-icon th">🧵</div>
+        <div>
+          <div class="sns-title">Threads <span class="tag tag-beta">ベータ</span></div>
+          <div class="sns-subtitle">Instagram と同じMeta アプリで利用可能</div>
+        </div>
+        <div class="sns-toggle">▾</div>
+      </div>
+      <div class="sns-body">
+        <div class="tip" style="margin-bottom:16px">💡 Threads API は Instagram の Meta アプリに追加する形で利用できます。Instagram の設定が完了していれば、追加作業は最小限です。</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Instagram の Meta アプリに Threads API を追加する</h4>
+              <p>Instagramの設定で作成したMetaアプリのダッシュボードから「製品を追加」→「Threads API」を追加します。</p>
+              <a class="docs-link" href="https://developers.facebook.com/docs/threads" target="_blank" rel="noopener">
+                → Threads API ドキュメント ↗
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Threads のアクセストークンを取得する</h4>
+              <p>Graph API エクスプローラーで <code>threads_basic</code>、<code>threads_content_publish</code>、<code>threads_manage_insights</code> の権限を含むトークンを取得します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>設定シートに入力する値</h4>
+              <div class="keys-list">
+                <div class="key-item"><span class="key-name">Threads User ID</span><span class="key-desc">Threads のユーザーID（数字）</span><span class="key-sheet">設定 B21</span></div>
+                <div class="key-item"><span class="key-name">Access Token</span><span class="key-desc">Threads用 Access Token</span><span class="key-sheet">設定 B22</span></div>
+              </div>
+              <div class="caution" style="margin-top:12px">⚠️ Threads APIは現在ベータ版のため、仕様が変更される可能性があります。エラーが発生した場合は公式ドキュメントをご確認ください。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sns-grid -->
+</div><!-- /section -->
+
+<!-- SUPPORT -->
+<div id="support" class="section" style="padding-top: 0;">
+  <div class="section-label">困ったときは</div>
+  <div class="help-grid">
+    <a class="help-card" href="#" onclick="return false;">
+      <span class="help-card-icon">💬</span>
+      <h3>LINE でサポートに相談</h3>
+      <p>APIの取得でつまずいたら、LINEでお気軽にご質問ください。</p>
+    </a>
+    <a class="help-card" href="#" onclick="return false;">
+      <span class="help-card-icon">📋</span>
+      <h3>よくある質問 (FAQ)</h3>
+      <p>エラーが出た場合や設定が分からない場合はFAQをご確認ください。</p>
+    </a>
+    <a class="help-card" href="#" onclick="return false;">
+      <span class="help-card-icon">🎬</span>
+      <h3>動画マニュアル</h3>
+      <p>セットアップの手順を動画でも確認いただけます。</p>
+    </a>
+    <a class="help-card" href="mailto:support@example.com">
+      <span class="help-card-icon">✉️</span>
+      <h3>メールで問い合わせ</h3>
+      <p>お急ぎでない場合はメールでもご連絡いただけます。</p>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 SNS Manager &nbsp;·&nbsp; <a href="#">利用規約</a> &nbsp;·&nbsp; <a href="#">プライバシーポリシー</a> &nbsp;·&nbsp; <a href="#">お問い合わせ</a></p>
+  <p style="margin-top:8px; font-size:11px;">このページの情報は随時更新されます。各SNSの公式ドキュメントも必ず合わせてご確認ください。</p>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress');
+    const scrollTop = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    el.style.width = (scrollTop / height * 100) + '%';
+  });
+
+  // Accordion toggle
+  function toggle(header) {
+    const card = header.closest('.sns-card');
+    card.classList.toggle('open');
+  }
+
+  // Animate cards on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.sns-card, .help-card, .flow-step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

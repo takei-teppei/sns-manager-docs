@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問（FAQ） — SNS Manager</title>
+<meta name="description" content="SNS Managerに関するよくある質問と回答。料金・機能・技術的な疑問にお答えします。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111118;--ink-mid:#44444e;--ink-soft:#88889a;
+  --paper:#fafaf8;--paper2:#f3f3ee;
+  --accent:#ff4b36;--accent-d:#d93220;--accent-bg:#fff1ef;
+  --green:#1baa6d;--border:rgba(17,17,24,0.1);
+  --shadow-sm:0 2px 12px rgba(17,17,24,0.08);
+  --shadow-md:0 8px 40px rgba(17,17,24,0.12);
+  --r:16px;
+  --serif:'Shippori Mincho B1',serif;
+  --sans:'Noto Sans JP',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:300;transition:width .08s linear;}
+
+header{position:sticky;top:0;z-index:200;background:rgba(250,250,248,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.logo{font-family:var(--serif);font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-family:var(--mono);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-size:13px;color:var(--ink-mid);font-weight:500;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);}
+.nav-cta{background:var(--ink);color:#fff !important;padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;transition:background .2s;}
+.nav-cta:hover{background:var(--accent) !important;}
+
+.container{max-width:800px;margin:0 auto;padding:0 5%;}
+.label{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-bg);padding:4px 12px;border-radius:100px;border:1px solid rgba(255,75,54,.15);margin-bottom:16px;}
+
+/* hero */
+.page-hero{padding:60px 0 56px;text-align:center;}
+.page-hero h1{font-family:var(--serif);font-size:clamp(28px,4vw,46px);font-weight:800;line-height:1.25;margin-bottom:14px;}
+.page-hero p{font-size:16px;color:var(--ink-mid);font-weight:300;}
+
+/* search */
+.faq-search-wrap{position:relative;margin:0 0 56px;}
+.faq-search{width:100%;padding:14px 20px 14px 48px;border:2px solid var(--border);border-radius:100px;font-size:15px;font-family:var(--sans);background:#fff;outline:none;transition:border-color .2s;color:var(--ink);}
+.faq-search:focus{border-color:var(--accent);}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none;}
+.faq-count{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--ink-soft);font-family:var(--mono);}
+
+/* category tabs */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+.cat-tab{padding:8px 18px;border-radius:100px;border:1.5px solid var(--border);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;background:#fff;color:var(--ink-mid);}
+.cat-tab:hover{border-color:var(--ink);color:var(--ink);}
+.cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* category section */
+.faq-category{margin-bottom:56px;}
+.cat-title{font-family:var(--serif);font-size:20px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:2px solid var(--ink);}
+.cat-icon{font-size:22px;}
+
+/* faq item */
+.faq-item{background:#fff;border:1.5px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.faq-item:hover{border-color:rgba(17,17,24,.2);}
+.faq-item.open{border-color:var(--accent);box-shadow:0 4px 20px rgba(255,75,54,.1);}
+.faq-q{padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;cursor:pointer;user-select:none;}
+.faq-q-text{font-size:14.5px;font-weight:700;line-height:1.45;flex:1;color:var(--ink);}
+.faq-toggle{width:26px;height:26px;border-radius:50%;background:var(--paper2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:300;color:var(--ink-mid);transition:all .2s;margin-top:1px;}
+.faq-item.open .faq-toggle{background:var(--accent);color:#fff;transform:rotate(45deg);}
+.faq-a{display:none;padding:0 22px 20px;border-top:1px solid var(--border);padding-top:16px;font-size:14px;color:var(--ink-mid);line-height:1.85;}
+.faq-item.open .faq-a{display:block;}
+.faq-a a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
+.faq-a strong{color:var(--ink);}
+.faq-a .faq-plan-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;}
+.faq-a .faq-plan-table th{background:var(--paper2);padding:8px 12px;text-align:left;font-size:12px;font-weight:700;color:var(--ink-mid);border-bottom:1px solid var(--border);}
+.faq-a .faq-plan-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--ink-mid);}
+
+/* no results */
+.no-results{text-align:center;padding:60px 20px;display:none;}
+.no-results-icon{font-size:48px;margin-bottom:16px;}
+.no-results h3{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:8px;}
+.no-results p{font-size:14px;color:var(--ink-soft);}
+
+/* contact cta */
+.contact-cta{background:var(--ink);border-radius:24px;padding:52px 48px;text-align:center;margin:64px 0 80px;position:relative;overflow:hidden;}
+.contact-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 400px 300px at 50% 50%,rgba(255,75,54,.12) 0%,transparent 70%);}
+.contact-cta h2{font-family:var(--serif);font-size:24px;font-weight:800;color:#fff;margin-bottom:10px;position:relative;z-index:1;}
+.contact-cta p{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:28px;position:relative;z-index:1;}
+.btn-line{display:inline-flex;align-items:center;gap:10px;background:#06c755;color:#fff;padding:14px 32px;border-radius:100px;font-size:15px;font-weight:700;transition:all .2s;position:relative;z-index:1;}
+.btn-line:hover{background:#04a844;transform:translateY(-2px);box-shadow:0 6px 20px rgba(6,199,85,.35);}
+
+footer{background:#0c0c10;color:rgba(255,255,255,.4);padding:40px 0 28px;}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--serif);font-size:15px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:13px;transition:color .2s;}
+.footer-links a:hover{color:rgba(255,255,255,.8);}
+.footer-copy{font-size:12px;width:100%;text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);margin-top:12px;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;}
+.reveal.visible{opacity:1;transform:none;}
+.hidden-item{display:none;}
+
+@media(max-width:640px){
+  .cat-tabs{gap:6px;}
+  .cat-tab{font-size:12px;padding:7px 14px;}
+  .contact-cta{padding:40px 24px;}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">S</div>SNS Manager
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">機能</a></li>
+      <li><a href="index.html#pricing">料金</a></li>
+      <li><a href="setup-guide.html">セットアップ</a></li>
+      <li><a href="how-to-use.html">使い方</a></li>
+      <li><a href="faq.html" class="active">FAQ</a></li>
+      <li><a href="index.html#cta" class="nav-cta">購入する</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-hero reveal">
+    <div class="label">FAQ</div>
+    <h1>よくある質問</h1>
+    <p>解決しない場合はLINEサポートへお気軽にご連絡ください。</p>
+  </div>
+
+  <!-- 検索 -->
+  <div class="faq-search-wrap reveal">
+    <span class="search-icon">🔍</span>
+    <input class="faq-search" type="text" id="faqSearch" placeholder="キーワードで検索…（例：カルーセル、返金、TikTok）" oninput="filterFaq(this.value)">
+    <span class="faq-count" id="faqCount"></span>
+  </div>
+
+  <!-- カテゴリタブ -->
+  <div class="cat-tabs reveal" id="catTabs">
+    <button class="cat-tab active" onclick="filterCat('all',this)">すべて</button>
+    <button class="cat-tab" onclick="filterCat('pricing',this)">💳 料金・購入</button>
+    <button class="cat-tab" onclick="filterCat('license',this)">🔑 ライセンス</button>
+    <button class="cat-tab" onclick="filterCat('setup',this)">⚙️ セットアップ</button>
+    <button class="cat-tab" onclick="filterCat('post',this)">📝 投稿機能</button>
+    <button class="cat-tab" onclick="filterCat('analytics',this)">📊 分析機能</button>
+    <button class="cat-tab" onclick="filterCat('trouble',this)">🔧 トラブル</button>
+  </div>
+
+  <!-- ── 料金・購入 ── -->
+  <div class="faq-category reveal" data-cat="pricing" id="cat-pricing">
+    <div class="cat-title"><span class="cat-icon">💳</span>料金・購入</div>
+
+    <div class="faq-item" data-cat="pricing" data-q="買い切りと月額の違いは何ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">買い切りと月額（Business）の違いは何ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">
+        <table class="faq-plan-table">
+          <thead><tr><th>項目</th><th>買い切り（Pro等）</th><th>Business（月額）</th></tr></thead>
+          <tbody>
+            <tr><td>支払い</td><td>一度きり</td><td>毎月 ¥4,980</td></tr>
+            <tr><td>アカウント数</td><td>1〜3（プランによる）</td><td>無制限</td></tr>
+            <tr><td>サポート</td><td>通常対応</td><td>優先対応（翌営業日）</td></tr>
+            <tr><td>新機能</td><td>同メジャーバージョン内は無料</td><td>常に最新</td></tr>
+          </tbody>
+        </table>
+        複数アカウントを管理する代理店・法人の方はBusinessプランがお得です。個人・1アカウントの方は買い切りが長期的にはコストを抑えられます。
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="pricing" data-q="返金はできますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">購入後の返金はできますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">購入から<strong>7日以内</strong>かつ<strong>未使用（未アクティベート）</strong>の場合に限り、返金対応いたします。ライセンス認証（アクティベート）済みの場合は原則として返金対応が難しくなりますので、購入前にご不明点はLINEサポートにてご確認ください。</div>
+    </div>
+
+    <div class="faq-item" data-cat="pricing" data-q="領収書インボイスは発行できますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">領収書・インボイスは発行できますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">はい、発行可能です。購入後にLINEサポートへ「領収書希望」とご連絡いただき、宛名・日付をお知らせください。PDF形式にてお送りします。</div>
+    </div>
+
+    <div class="faq-item" data-cat="pricing" data-q="一般的なSaaSと比べてお得ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">月額SaaSと比較して本当にお得ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">はい。一般的なSNS管理SaaSは月額¥3,000〜¥10,000程度かかります。月額¥5,000とすると年間¥60,000。SNS Manager Proは<strong>¥69,800の買い切り</strong>なので、約14ヶ月で元が取れ、それ以降はずっと¥0で使い続けられます。さらにサーバー代・インフラ代も一切かかりません。</div>
+    </div>
+  </div>
+
+  <!-- ── ライセンス ── -->
+  <div class="faq-category reveal" data-cat="license" id="cat-license">
+    <div class="cat-title"><span class="cat-icon">🔑</span>ライセンス</div>
+
+    <div class="faq-item" data-cat="license" data-q="1ライセンスで何アカウント使えますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">1ライセンスで何アカウント使えますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">プランによって異なります。<br><br>
+        <strong>Starter / Standard / Pro</strong>：1ライセンス = 1スプレッドシート（1アカウント）専用<br>
+        <strong>Team</strong>：3スプレッドシートまで使用可（追加 +¥20,000/件）<br>
+        <strong>Business</strong>：アカウント数無制限<br><br>
+        ライセンスキーはスプレッドシートIDに紐付けて管理されているため、別のスプレッドシートにコピーしての利用は技術的にもブロックされます。
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="license" data-q="社内複数メンバーで使い回せますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">社内の複数メンバーで1ライセンスを共有・使い回せますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a"><strong>できません。</strong>利用規約により、1ライセンスを複数スプレッドシートに複製・配布することは禁止しております。複数名での利用にはTeamプランまたはBusinessプランをご選択ください。不正利用が検知された場合はライセンスを無効化させていただきます。</div>
+    </div>
+
+    <div class="faq-item" data-cat="license" data-q="スプレッドシートを作り直したい再認証できますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">スプレッドシートを作り直したい場合、再認証できますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">はい、可能です。LINEサポートへ「スロットリセット希望」とご連絡いただければ、担当者が紐付けをリセットし、新しいスプレッドシートで再アクティベートできるようにします。<br><br>スロットリセット対応は月1回まで無料です。</div>
+    </div>
+
+    <div class="faq-item" data-cat="license" data-q="バージョンアップは無料ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">将来のアップデートは無料ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">同じメジャーバージョン（例：v1.x.x）内のアップデートはすべて無料です。メジャーバージョンアップ（v1 → v2）の際は、既存ユーザー向けに優待価格（通常の50%オフ予定）を設ける予定です。Businessプランはバージョンに関わらず常に最新版をご利用いただけます。</div>
+    </div>
+  </div>
+
+  <!-- ── セットアップ ── -->
+  <div class="faq-category reveal" data-cat="setup" id="cat-setup">
+    <div class="cat-title"><span class="cat-icon">⚙️</span>セットアップ</div>
+
+    <div class="faq-item" data-cat="setup" data-q="プログラミング知識は必要ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">プログラミングの知識は必要ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">不要です。Googleスプレッドシートの基本操作ができれば使えます。初期設定はAPIキーのコピー&ペーストのみです。APIキーの取得手順は<a href="setup-guide.html">セットアップガイド</a>で画像付きで解説しています。</div>
+    </div>
+
+    <div class="faq-item" data-cat="setup" data-q="セットアップにどのくらい時間がかかりますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">セットアップにどのくらい時間がかかりますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">Instagramのみ（Starterプラン）であれば<strong>30〜60分程度</strong>でセットアップ完了です。全SNS（Standard・Pro）の場合は各SNSのAPI申請が含まれるため2〜3時間程度かかります。特にTikTokとXは審査が必要なため、申請から承認まで数日かかる場合があります。</div>
+    </div>
+
+    <div class="faq-item" data-cat="setup" data-q="X Twitter APIはどのプランが必要ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">X（Twitter）のAPIはどのプランが必要ですか？有料ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">X APIのBasicプランが必要です（<strong>月額$100 / 約¥15,000</strong>）。これはXが課金する費用であり、SNS Manager本体の料金とは別途かかります。Xへの投稿が不要な場合はFreeティアでは投稿APIが利用できないため、X連携機能はご利用いただけません。Instagramのみ利用する場合は追加費用は一切かかりません。</div>
+    </div>
+
+    <div class="faq-item" data-cat="setup" data-q="Instagramのビジネスアカウントが必要ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">Instagramはビジネスアカウントが必要ですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">はい、必須です。Instagram Graph APIはビジネスアカウントまたはクリエイターアカウントのみ利用できます。個人アカウントをプロアカウントに切り替える手順はInstagramアプリの設定から無料で行えます。</div>
+    </div>
+  </div>
+
+  <!-- ── 投稿機能 ── -->
+  <div class="faq-category reveal" data-cat="post" id="cat-post">
+    <div class="cat-title"><span class="cat-icon">📝</span>投稿機能</div>
+
+    <div class="faq-item" data-cat="post" data-q="カルーセル投稿複数画像に対応していますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">Instagramのカルーセル投稿（複数画像）に対応していますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">はい、対応しています。投稿管理シートのB列（画像URL）にGoogle DriveのURLをカンマ区切りで複数入力すると、自動的にカルーセル投稿になります。<br><br>例：<code style="font-family:var(--mono);background:var(--paper2);padding:2px 6px;border-radius:4px;font-size:12px;">https://drive.google.com/file/d/AAA…, https://drive.google.com/file/d/BBB…</code></div>
+    </div>
+
+    <div class="faq-item" data-cat="post" data-q="予約投稿の最小単位は何分ですか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">予約投稿の精度（タイミングのズレ）はどのくらいですか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">スケジューラーは<strong>5分ごと</strong>に動作するため、最大5分のズレが生じます。例えば14:00に予約した投稿は14:00〜14:05の間に投稿されます。秒単位の精度は保証できませんが、通常の運用では問題ないレベルです。</div>
+    </div>
+
+    <div class="faq-item" data-cat="post" data-q="動画投稿リール投稿に対応していますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">動画（リール）投稿に対応していますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">TikTokは動画投稿のみ対応しています。Instagram・X・Threadsはv1では画像投稿が主対応で、リール（動画）投稿はv1.2以降で対応予定です。アップデート通知はサポートLINEにてご案内します。</div>
+    </div>
+
+    <div class="faq-item" data-cat="post" data-q="投稿に失敗した場合どうなりますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">投稿に失敗した場合はどうなりますか？自動でリトライされますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">投稿失敗時はステータスが「エラー」に変わり、I列にエラー内容が記録されます。Pro・Businessプランではエラー発生と同時にLINEまたはメールで通知します。<br><br>自動リトライは<strong>行いません</strong>（誤投稿防止のため）。エラー内容を確認・修正してからステータスを「予約済み」に戻すと再投稿できます。</div>
+    </div>
+  </div>
+
+  <!-- ── 分析機能 ── -->
+  <div class="faq-category reveal" data-cat="analytics" id="cat-analytics">
+    <div class="cat-title"><span class="cat-icon">📊</span>分析機能</div>
+
+    <div class="faq-item" data-cat="analytics" data-q="分析データはリアルタイムで取得できますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">分析データはリアルタイムで取得できますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">リアルタイムではなく、手動または定期取得です。「📱 SNS Manager」→「分析データを取得」を実行するとその時点のデータが記録されます。自動取得はメニューからトリガーを設定すると毎日指定時刻に自動実行できます。</div>
+    </div>
+
+    <div class="faq-item" data-cat="analytics" data-q="どのプランから分析機能が使えますか">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">分析機能はどのプランから使えますか？</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a"><strong>Proプラン以上</strong>でご利用いただけます。Starter・Standardプランは投稿・予約のみです。後からProプランに買い替えた場合も同じスプレッドシートでアップグレード適用できます（サポートまでご連絡ください）。</div>
+    </div>
+  </div>
+
+  <!-- ── トラブル ── -->
+  <div class="faq-category reveal" data-cat="trouble" id="cat-trouble">
+    <div class="cat-title"><span class="cat-icon">🔧</span>トラブル</div>
+
+    <div class="faq-item" data-cat="trouble" data-q="投稿されない予約が動かない">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">予約時刻を過ぎても投稿されません。</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">以下を順番に確認してください。<br><br>
+        <strong>1. トリガーが設定されているか</strong><br>
+        「📱 SNS Manager」→「トリガーを設定」を再実行してください。<br><br>
+        <strong>2. ステータスが「予約済み」になっているか</strong><br>
+        H列が「下書き」のままでは投稿されません。<br><br>
+        <strong>3. 「ログ」シートにエラーが記録されていないか</strong><br>
+        APIキーの有効期限切れ・権限不足などが原因のことがあります。<br><br>
+        解決しない場合はログシートのエラー内容をLINEサポートにお送りください。
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="trouble" data-q="Instagramのトークンが切れた">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">「アクセストークンが無効」というエラーが出ます。</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">Instagramのアクセストークンは通常60日で期限が切れますが、SNS Managerは<strong>30日ごとに自動更新</strong>します。それでもエラーが出る場合は、Meta Developersで新しいトークンを発行し直し、設定シートのB3に貼り替えてください。手順は<a href="setup-guide.html">セットアップガイド</a>を参照してください。</div>
+    </div>
+
+    <div class="faq-item" data-cat="trouble" data-q="GASの権限エラーが出る">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">「権限が必要です」というエラーが出て操作できません。</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">GASの実行には初回に権限の付与が必要です。<br><br>
+        1. メニューから任意の操作を実行<br>
+        2. ダイアログが表示されたら「権限を確認」をクリック<br>
+        3. Googleアカウントを選択<br>
+        4. 「詳細」→「（プロジェクト名）に移動（安全ではないページ）」をクリック<br>
+        5. 「許可」をクリック<br><br>
+        ※「安全ではない」と表示されますが、これはGoogleが外部に公開されていないGASに表示する標準の警告です。SNS Manager本体のコードに問題はありません。
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="trouble" data-q="ライセンス認証がSPREADSHEET_MISMATCHエラーになる">
+      <div class="faq-q" onclick="toggle(this)">
+        <span class="faq-q-text">「別のスプレッドシートに紐付けられています」というエラーが出ます。</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-a">このメッセージはライセンスキーが別のスプレッドシートに登録済みであることを示しています。<br><br>
+        <strong>スプレッドシートを作り直した場合</strong>：LINEサポートへ「スロットリセット希望」とご連絡ください。旧シートのIDを解除し、新しいシートで再認証できるようにします。<br><br>
+        <strong>身に覚えがない場合</strong>：第三者によるキーの不正利用が疑われます。同様にLINEサポートにご連絡ください。
+      </div>
+    </div>
+  </div>
+
+  <!-- 検索結果なし -->
+  <div class="no-results" id="noResults">
+    <div class="no-results-icon">🔍</div>
+    <h3>該当する質問が見つかりませんでした</h3>
+    <p>キーワードを変えて再度お試しいただくか、<br>LINEサポートまでお気軽にご質問ください。</p>
+  </div>
+
+  <!-- お問い合わせCTA -->
+  <div class="contact-cta reveal" id="contact">
+    <h2>解決しない場合はLINEサポートへ</h2>
+    <p>購入前のご質問もお気軽にどうぞ。通常24時間以内に返信します。</p>
+    <a href="https://line.me/R/ti/p/@your-line-id" target="_blank" class="btn-line">
+      <span>💬</span>
+      LINEでお問い合わせ
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div style="width:24px;height:24px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-family:var(--mono);">S</div>
+      SNS Manager
+    </div>
+    <div class="footer-links">
+      <a href="setup-guide.html">セットアップ</a>
+      <a href="how-to-use.html">使い方</a>
+      <a href="faq.html">FAQ</a>
+      <a href="terms.html">利用規約</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 5%;">
+    <div class="footer-copy">© 2024 SNS Manager. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('progress');
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  p.style.width=(s/h*100)+'%';
+});
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+function toggle(qEl){
+  const item=qEl.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+function filterCat(cat,btn){
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('faqSearch').value='';
+  document.getElementById('faqCount').textContent='';
+  const cats=document.querySelectorAll('.faq-category');
+  cats.forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';
+  });
+  document.getElementById('noResults').style.display='none';
+}
+
+function filterFaq(q){
+  const query=q.toLowerCase().trim();
+  const items=document.querySelectorAll('.faq-item');
+  const cats=document.querySelectorAll('.faq-category');
+  // reset cat tabs
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.cat-tab').classList.add('active');
+  cats.forEach(c=>c.style.display='');
+
+  if(!query){
+    items.forEach(i=>i.classList.remove('hidden-item'));
+    document.getElementById('faqCount').textContent='';
+    document.getElementById('noResults').style.display='none';
+    return;
+  }
+  let count=0;
+  items.forEach(item=>{
+    const text=(item.dataset.q||'')+(item.querySelector('.faq-q-text').textContent)+(item.querySelector('.faq-a').textContent);
+    const match=text.toLowerCase().includes(query);
+    item.classList.toggle('hidden-item',!match);
+    if(match)count++;
+  });
+  document.getElementById('faqCount').textContent=count+'件';
+  document.getElementById('noResults').style.display=count===0?'block':'none';
+  // hide empty categories
+  cats.forEach(c=>{
+    const visible=[...c.querySelectorAll('.faq-item')].some(i=>!i.classList.contains('hidden-item'));
+    c.style.display=visible?'':'none';
+  });
+}
+</script>
+</body>
+</html>

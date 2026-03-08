@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使い方 — SNS Manager</title>
+<meta name="description" content="SNS Managerの使い方を詳しく解説。予約投稿・連携投稿・分析機能の操作手順。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#111118; --ink-mid:#44444e; --ink-soft:#88889a;
+  --paper:#fafaf8; --paper2:#f3f3ee;
+  --accent:#ff4b36; --accent-d:#d93220; --accent-bg:#fff1ef;
+  --green:#1baa6d; --blue:#3b82f6;
+  --border:rgba(17,17,24,0.1);
+  --shadow-sm:0 2px 12px rgba(17,17,24,0.08);
+  --shadow-md:0 8px 40px rgba(17,17,24,0.12);
+  --r:16px;
+  --serif:'Shippori Mincho B1',serif;
+  --sans:'Noto Sans JP',sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+/* ── header ── */
+header{position:sticky;top:0;z-index:200;background:rgba(250,250,248,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.logo{font-family:var(--serif);font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-family:var(--mono);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-size:13px;color:var(--ink-mid);font-weight:500;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);}
+.nav-cta{background:var(--ink);color:#fff !important;padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;transition:background .2s;}
+.nav-cta:hover{background:var(--accent) !important;}
+
+/* ── layout ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 5%;display:grid;grid-template-columns:240px 1fr;gap:60px;align-items:start;padding-top:60px;padding-bottom:120px;}
+
+/* ── sidebar ── */
+.sidebar{position:sticky;top:84px;}
+.sidebar-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px;}
+.sidebar-nav{list-style:none;display:flex;flex-direction:column;gap:2px;}
+.sidebar-nav a{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-mid);padding:7px 10px;border-radius:8px;transition:all .15s;}
+.sidebar-nav a:hover{background:var(--paper2);color:var(--ink);}
+.sidebar-nav a.active{background:var(--accent-bg);color:var(--accent);font-weight:600;}
+.sidebar-nav .nav-icon{font-size:15px;}
+.sidebar-sep{height:1px;background:var(--border);margin:8px 0;}
+
+/* ── main content ── */
+.content{}
+.page-hero{margin-bottom:56px;}
+.label{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-bg);padding:4px 12px;border-radius:100px;border:1px solid rgba(255,75,54,.15);margin-bottom:16px;}
+.page-hero h1{font-family:var(--serif);font-size:clamp(28px,3vw,44px);font-weight:800;line-height:1.25;margin-bottom:14px;}
+.page-hero p{font-size:16px;color:var(--ink-mid);font-weight:300;line-height:1.8;}
+
+/* ── section ── */
+.doc-section{margin-bottom:72px;scroll-margin-top:84px;}
+.doc-section h2{font-family:var(--serif);font-size:24px;font-weight:800;margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid var(--ink);display:flex;align-items:center;gap:10px;}
+.doc-section h3{font-size:16px;font-weight:700;margin:28px 0 12px;color:var(--ink);}
+.doc-section p{font-size:14.5px;color:var(--ink-mid);line-height:1.85;margin-bottom:14px;}
+.doc-section ul,.doc-section ol{padding-left:20px;margin-bottom:14px;}
+.doc-section li{font-size:14.5px;color:var(--ink-mid);line-height:1.85;margin-bottom:4px;}
+
+/* ── step cards ── */
+.steps{display:flex;flex-direction:column;gap:0;position:relative;}
+.steps::before{content:'';position:absolute;left:23px;top:48px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent);}
+.step-card{display:flex;gap:20px;position:relative;z-index:1;}
+.step-card+.step-card{margin-top:28px;}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:500;flex-shrink:0;}
+.step-body{flex:1;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px 24px;}
+.step-body h4{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--ink);}
+.step-body p{font-size:13.5px;color:var(--ink-mid);line-height:1.75;margin:0;}
+.step-body .step-note{margin-top:10px;padding:10px 14px;background:var(--accent-bg);border-radius:8px;font-size:12.5px;color:var(--accent);}
+.step-body .step-tip{margin-top:10px;padding:10px 14px;background:#ecfdf5;border-radius:8px;font-size:12.5px;color:#065f46;border:1px solid rgba(6,95,70,.12);}
+
+/* ── sheet map ── */
+.sheet-map{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0;}
+.sheet-header{background:var(--ink);color:#fff;padding:12px 20px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.sheet-row{display:grid;grid-template-columns:80px 160px 1fr;gap:0;border-bottom:1px solid var(--border);font-size:13px;}
+.sheet-row:last-child{border-bottom:none;}
+.sheet-row.head{background:var(--paper2);font-weight:700;font-size:12px;color:var(--ink-mid);}
+.sheet-cell{padding:10px 16px;border-right:1px solid var(--border);}
+.sheet-cell:last-child{border-right:none;color:var(--ink-mid);}
+.cell-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;font-family:var(--mono);}
+.tag-req{background:#fef2f2;color:#b91c1c;}
+.tag-opt{background:#f0fdf4;color:#166534;}
+.tag-auto{background:#eff6ff;color:#1d4ed8;}
+
+/* ── code block ── */
+.code-block{background:var(--ink);color:#e2e8f0;border-radius:12px;padding:20px 24px;font-family:var(--mono);font-size:13px;line-height:1.7;margin:16px 0;overflow-x:auto;position:relative;}
+.code-block .code-label{position:absolute;top:10px;right:14px;font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;}
+.code-comment{color:#6b7a99;}
+.code-key{color:#93c5fd;}
+.code-val{color:#86efac;}
+.code-str{color:#fca5a5;}
+
+/* ── info box ── */
+.info-box{display:flex;gap:12px;padding:16px 20px;border-radius:12px;margin:16px 0;font-size:13.5px;line-height:1.7;}
+.info-box.warn{background:#fffbeb;border:1.5px solid #fcd34d;color:#92400e;}
+.info-box.tip {background:#ecfdf5;border:1.5px solid #6ee7b7;color:#065f46;}
+.info-box.note{background:#eff6ff;border:1.5px solid #93c5fd;color:#1e3a5f;}
+.info-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+
+/* ── feature grid ── */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0;}
+.feature-item{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;transition:all .2s;}
+.feature-item:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);}
+.feature-item-icon{font-size:22px;margin-bottom:8px;}
+.feature-item h4{font-size:13px;font-weight:700;margin-bottom:4px;}
+.feature-item p{font-size:12px;color:var(--ink-soft);margin:0;line-height:1.6;}
+
+/* ── status table ── */
+.status-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;}
+.status-table th{background:var(--paper2);padding:10px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--ink-mid);border-bottom:2px solid var(--border);}
+.status-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink-mid);vertical-align:top;}
+.status-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;}
+.badge-draft   {background:#f3f4f6;color:#374151;}
+.badge-scheduled{background:#eff6ff;color:#1d4ed8;}
+.badge-posted  {background:#ecfdf5;color:#065f46;}
+.badge-error   {background:#fef2f2;color:#b91c1c;}
+
+/* ── responsive ── */
+@media(max-width:860px){
+  .page-wrap{grid-template-columns:1fr;padding-top:40px;}
+  .sidebar{position:static;display:none;}
+  .feature-grid{grid-template-columns:repeat(2,1fr);}
+  .sheet-row{grid-template-columns:70px 130px 1fr;}
+}
+@media(max-width:540px){
+  .feature-grid{grid-template-columns:1fr;}
+}
+
+/* ── footer ── */
+footer{background:#0c0c10;color:rgba(255,255,255,.4);padding:40px 0 28px;}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--serif);font-size:15px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:13px;transition:color .2s;}
+.footer-links a:hover{color:rgba(255,255,255,.8);}
+.footer-copy{font-size:12px;width:100%;text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);margin-top:12px;}
+
+/* ── scroll progress ── */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:300;transition:width .08s linear;}
+/* ── reveal ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">S</div>SNS Manager
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">機能</a></li>
+      <li><a href="index.html#pricing">料金</a></li>
+      <li><a href="setup-guide.html">セットアップ</a></li>
+      <li><a href="how-to-use.html" class="active">使い方</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="index.html#cta" class="nav-cta">購入する</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- ── sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-title">目次</div>
+    <ul class="sidebar-nav">
+      <li><a href="#overview" class="active"><span class="nav-icon">🗺</span>全体の流れ</a></li>
+      <li><a href="#setup"><span class="nav-icon">⚙️</span>初期設定</a></li>
+      <div class="sidebar-sep"></div>
+      <li><a href="#post-basic"><span class="nav-icon">📝</span>投稿を作成する</a></li>
+      <li><a href="#schedule"><span class="nav-icon">📅</span>予約投稿</a></li>
+      <li><a href="#crosspost"><span class="nav-icon">🔗</span>他SNSへ連携投稿</a></li>
+      <li><a href="#instant"><span class="nav-icon">⚡</span>即時投稿</a></li>
+      <div class="sidebar-sep"></div>
+      <li><a href="#analytics"><span class="nav-icon">📊</span>分析・レポート</a></li>
+      <li><a href="#notification"><span class="nav-icon">🔔</span>通知設定</a></li>
+      <li><a href="#status"><span class="nav-icon">🏷</span>ステータス一覧</a></li>
+    </ul>
+  </aside>
+
+  <!-- ── main ── -->
+  <main class="content">
+    <div class="page-hero reveal">
+      <div class="label">How to use</div>
+      <h1>SNS Managerの<br>使い方</h1>
+      <p>スプレッドシートへの入力から自動投稿まで、<br>操作手順をすべて解説します。</p>
+    </div>
+
+    <!-- 全体の流れ -->
+    <section class="doc-section reveal" id="overview">
+      <h2><span>🗺</span>全体の流れ</h2>
+      <p>SNS Managerは <strong>スプレッドシートがすべての操作画面</strong>です。難しいダッシュボードはありません。</p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">📋</div>
+          <h4>① シートに入力</h4>
+          <p>投稿内容・画像・SNSの選択・予約日時を記入する</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🕐</div>
+          <h4>② ステータスを変更</h4>
+          <p>「下書き」→「予約済み」に変えるだけで予約完了</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🤖</div>
+          <h4>③ 自動で投稿</h4>
+          <p>5分ごとにチェックして指定日時に自動投稿される</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 初期設定 -->
+    <section class="doc-section reveal" id="setup">
+      <h2><span>⚙️</span>初期設定</h2>
+      <p>初回のみ必要な設定です。セットアップが完了していない場合は先に<a href="setup-guide.html" style="color:var(--accent);text-decoration:underline;">セットアップガイド</a>を参照してください。</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>スプレッドシートをコピーする</h4>
+            <p>購入後に送付されるURLからスプレッドシートを開き、「ファイル」→「コピーを作成」でご自身のGoogle Driveに保存します。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>ライセンスキーを入力する</h4>
+            <p>メニュー「📱 SNS Manager」→「ライセンス認証」を選択。購入後に届いたライセンスキーを入力して認証します。</p>
+            <div class="step-tip">✓ キーの形式: XXXX-XXXX-XXXX-XXXX（ハイフン含め19文字）</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>各SNSのAPIキーを設定シートに入力する</h4>
+            <p>「設定」シートを開き、利用するSNSのAPIキーをB列に入力します。取得方法は<a href="setup-guide.html" style="color:var(--accent);">セットアップガイド</a>を参照してください。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>トリガーを有効化する</h4>
+            <p>メニュー「📱 SNS Manager」→「トリガーを設定」を実行。5分ごとの自動チェックが開始されます。</p>
+            <div class="step-note">⚠ GASの初回実行時に「権限の確認」が表示されます。「詳細」→「（プロジェクト名）に移動」→「許可」で進めてください。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 投稿を作成する -->
+    <section class="doc-section reveal" id="post-basic">
+      <h2><span>📝</span>投稿を作成する</h2>
+      <p>「投稿管理」シートに必要事項を入力します。各列の意味は以下の通りです。</p>
+
+      <div class="sheet-map">
+        <div class="sheet-header">📋 投稿管理シート — 列の説明</div>
+        <div class="sheet-row head">
+          <div class="sheet-cell">列</div>
+          <div class="sheet-cell">項目名</div>
+          <div class="sheet-cell">説明</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">A</span></div>
+          <div class="sheet-cell">ID</div>
+          <div class="sheet-cell"><span class="cell-tag tag-auto">自動</span> 投稿の一意識別子。自動生成されます。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">B</span></div>
+          <div class="sheet-cell">投稿タイトル</div>
+          <div class="sheet-cell"><span class="cell-tag tag-opt">任意</span> 管理用のタイトル（投稿には使用されません）。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">C</span></div>
+          <div class="sheet-cell">キャプション</div>
+          <div class="sheet-cell"><span class="cell-tag tag-req">必須</span> 投稿本文。各SNSに送信されるテキストです。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">D</span></div>
+          <div class="sheet-cell">ハッシュタグ</div>
+          <div class="sheet-cell"><span class="cell-tag tag-opt">任意</span> キャプションの末尾に自動追加されます。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">E</span></div>
+          <div class="sheet-cell">画像URL/ドライブID</div>
+          <div class="sheet-cell"><span class="cell-tag tag-req">必須</span> Google DriveのURLまたはファイルID。複数画像はカンマ区切りでカルーセル投稿。動画URLでリール/ストーリーズにも対応。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">F</span></div>
+          <div class="sheet-cell">予約日時</div>
+          <div class="sheet-cell"><span class="cell-tag tag-req">必須</span> 例: 2024/03/15 14:30 （5分刻みで指定）</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">G</span></div>
+          <div class="sheet-cell">ステータス</div>
+          <div class="sheet-cell"><span class="cell-tag tag-req">必須</span> 下書き / 予約済み / 投稿済み / エラー / キャンセル</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">H〜K</span></div>
+          <div class="sheet-cell">SNSチェック</div>
+          <div class="sheet-cell"><span class="cell-tag tag-opt">任意</span> H=Instagram, I=X, J=TikTok, K=Threads。✓ を入れると投稿対象になります。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">L〜O</span></div>
+          <div class="sheet-cell">結果・日時</div>
+          <div class="sheet-cell"><span class="cell-tag tag-auto">自動</span> L=投稿結果, M=エラー内容, N=作成日時, O=更新日時。自動で記録されます。</div>
+        </div>
+        <div class="sheet-row">
+          <div class="sheet-cell"><span style="font-family:var(--mono);font-size:12px;">P</span></div>
+          <div class="sheet-cell">投稿タイプ</div>
+          <div class="sheet-cell"><span class="cell-tag tag-opt">任意</span> 自動 / フィード / ストーリーズ / リール。空欄は「自動」（動画→リール、画像→フィード）。</div>
+        </div>
+      </div>
+
+      <h3>画像をGoogle Driveから使う</h3>
+      <p>Google Drive上の画像のリンクを「共有」→「リンクをコピー」でコピーして貼り付けます。ファイルの公開設定は自動で処理されます。</p>
+      <div class="info-box note">
+        <span class="info-icon">💡</span>
+        <div>「リンクを知っている全員」に共有設定を変更しなくても問題ありません。GASが自動で一時的にアクセス可能な状態にしてからAPIに送信します。</div>
+      </div>
+    </section>
+
+    <!-- 予約投稿 -->
+    <section class="doc-section reveal" id="schedule">
+      <h2><span>📅</span>予約投稿</h2>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>投稿内容・画像・SNSを入力する</h4>
+            <p>「投稿管理」シートにキャプション・画像URL・投稿するSNSのチェックを入力します。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>予約日時を入力する</h4>
+            <p>F列に投稿したい日時を入力します。例: <code style="font-family:var(--mono);background:var(--paper2);padding:2px 6px;border-radius:4px;">2024/06/15 09:00</code></p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>ステータスを「予約済み」に変更する</h4>
+            <p>G列のステータスを「予約済み」に変えると予約完了です。あとはシステムが5分ごとに確認し、指定日時に自動投稿します。</p>
+            <div class="step-tip">✓ 投稿後はステータスが「投稿済み」に自動更新され、セルが緑色になります。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 他SNS連携 -->
+    <section class="doc-section reveal" id="crosspost">
+      <h2><span>🔗</span>他SNSへの連携投稿</h2>
+      <p>Instagramと同じ内容を、X・TikTok・Threadsにも同時に投稿できます。</p>
+      <div class="info-box warn">
+        <span class="info-icon">⚠️</span>
+        <div><strong>プランによって使用可能なSNSが異なります。</strong><br>Starterプランは Instagram のみ対応。X・TikTok・Threadsの連携にはStandardプラン以上が必要です。</div>
+      </div>
+      <h3>X (Twitter) への投稿</h3>
+      <p>InstagramのキャプションがそのままX用のテキストになります。280文字を超える場合は自動的に末尾を切り詰め、投稿URLを付記します。</p>
+      <h3>TikTok への投稿</h3>
+      <p>TikTokは<strong>動画ファイルのみ</strong>対応です。E列にGoogle Drive上の動画ファイルのURLを入力してください。画像では投稿できません。</p>
+      <h3>Threads への投稿</h3>
+      <p>テキストと画像両方に対応しています。Instagramと同じMetaアカウントで連携できます。</p>
+    </section>
+
+    <!-- 投稿タイプ -->
+    <section class="doc-section reveal" id="post-type">
+      <h2><span>🎬</span>投稿タイプ（フィード・ストーリーズ・リール）</h2>
+      <p>P列「投稿タイプ」で、Instagramへの投稿形式を選択できます。</p>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>投稿タイプ</th>
+            <th>内容</th>
+            <th>対応メディア</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>自動</strong>（デフォルト）</td><td>メディアの種類に応じて自動判定。動画→リール、画像→フィード</td><td>画像・動画</td></tr>
+          <tr><td><strong>フィード</strong></td><td>通常のフィード投稿。カルーセル（複数画像）にも対応</td><td>画像</td></tr>
+          <tr><td><strong>ストーリーズ</strong></td><td>24時間で消えるストーリーズ投稿。キャプションは付きません</td><td>画像・動画</td></tr>
+          <tr><td><strong>リール</strong></td><td>ショート動画（リール）投稿。フィードにも表示されます</td><td>動画のみ</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box note">
+        <span class="info-icon">💡</span>
+        <div>P列が空欄の場合は「自動」として動作します。動画ファイル（.mp4, .mov, .webm）は自動でリール投稿になります。</div>
+      </div>
+      <div class="info-box warn">
+        <span class="info-icon">⚠️</span>
+        <div><strong>ストーリーズの注意点：</strong>Instagram APIの仕様により、ストーリーズにはキャプション（テキスト）が付きません。画像または動画のみが投稿されます。</div>
+      </div>
+      <h3>リール（動画）投稿のポイント</h3>
+      <p>E列にGoogle Drive上の動画ファイルのURLまたはファイルIDを入力します。動画ファイルはInstagram APIが直接取得できるよう、自動で共有設定が調整されます。</p>
+      <p>動画のアップロードには時間がかかるため、システムが自動的にステータスを確認しながら処理を進めます（最大約100秒）。</p>
+    </section>
+
+    <!-- 即時投稿 -->
+    <section class="doc-section reveal" id="instant">
+      <h2><span>⚡</span>即時投稿</h2>
+      <p>予約を使わず、今すぐ投稿したい場合は即時投稿機能を使います。</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>投稿したい行を選択する</h4>
+            <p>「投稿管理」シートで、即時投稿したい行のどこかをクリックして選択します。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>メニューから「今すぐ投稿」を実行</h4>
+            <p>「📱 SNS Manager」→「今すぐ投稿（選択行）」をクリック。確認ダイアログが表示されるので「OK」を押します。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>投稿結果を確認する</h4>
+            <p>投稿が完了するとステータスが「投稿済み」に変わり、L列に結果ログが記録されます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 分析 -->
+    <section class="doc-section reveal" id="analytics">
+      <h2><span>📊</span>分析・レポート機能</h2>
+      <div class="info-box note">
+        <span class="info-icon">📋</span>
+        <div>分析機能はProプラン以上でご利用いただけます。</div>
+      </div>
+      <h3>分析データを取得する</h3>
+      <p>「📱 SNS Manager」→「分析データを取得」を実行すると、各SNSのエンゲージメントデータが「分析」シートに追記されます。</p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">📸</div>
+          <h4>Instagram</h4>
+          <p>インプレッション・リーチ・いいね・コメント・保存・シェア</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">𝕏</div>
+          <h4>X (Twitter)</h4>
+          <p>インプレッション・いいね・リポスト・返信・クリック</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🧵</div>
+          <h4>Threads</h4>
+          <p>いいね・返信・リポスト・引用・ビュー数</p>
+        </div>
+      </div>
+      <h3>レポートを生成する</h3>
+      <p>「📱 SNS Manager」→「レポートを生成」を実行すると、「📊 レポート」シートが自動作成されます。プラットフォーム別の集計・月別推移・エンゲージメント率が一覧で確認できます。</p>
+    </section>
+
+    <!-- 通知設定 -->
+    <section class="doc-section reveal" id="notification">
+      <h2><span>🔔</span>エラー通知設定</h2>
+      <p>投稿に失敗したとき、LINEまたはメールで即時通知を受け取れます（Pro・Businessプランのみ）。</p>
+      <h3>LINE通知の設定</h3>
+      <p>「設定」シートのB30に <strong>LINE Notify のアクセストークン</strong>を入力します。LINE Notifyは無料で利用できます。</p>
+      <h3>メール通知の設定</h3>
+      <p>「設定」シートのB26に通知先メールアドレスを入力します。GASと同じGoogleアカウントのGmailから送信されます。</p>
+    </section>
+
+    <!-- ステータス一覧 -->
+    <section class="doc-section reveal" id="status">
+      <h2><span>🏷</span>ステータス一覧</h2>
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>ステータス</th>
+            <th>セルの色</th>
+            <th>意味・次のアクション</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="status-badge badge-draft">下書き</span></td>
+            <td>白（デフォルト）</td>
+            <td>作成中・まだ投稿されません。「予約済み」に変えると予約が有効になります。</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge badge-scheduled">予約済み</span></td>
+            <td>水色</td>
+            <td>予約が確定。指定日時に自動投稿されます。日時変更は直接セルを編集できます。</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge badge-posted">投稿済み</span></td>
+            <td>緑</td>
+            <td>全対象SNSへの投稿が完了。L列に各SNSの投稿結果が記録されます。</td>
+          </tr>
+          <tr>
+            <td><span class="status-badge badge-error">エラー</span></td>
+            <td>赤</td>
+            <td>投稿に失敗。M列にエラー内容が記録されます。原因を修正後「予約済み」に戻すと再試行できます。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div style="width:24px;height:24px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-family:var(--mono);">S</div>
+      SNS Manager
+    </div>
+    <div class="footer-links">
+      <a href="setup-guide.html">セットアップ</a>
+      <a href="how-to-use.html">使い方</a>
+      <a href="faq.html">FAQ</a>
+      <a href="terms.html">利用規約</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 5%;">
+    <div class="footer-copy">© 2024 SNS Manager. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('progress');
+  const s=document.documentElement.scrollTop;
+  const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  p.style.width=(s/h*100)+'%';
+});
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// sidebar active state
+const sections=document.querySelectorAll('.doc-section');
+const navLinks=document.querySelectorAll('.sidebar-nav a');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const link=document.querySelector(`.sidebar-nav a[href="#${e.target.id}"]`);
+      if(link)link.classList.add('active');
+    }
+  });
+},{threshold:0.4});
+sections.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
